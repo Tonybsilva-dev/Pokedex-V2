@@ -1,0 +1,19 @@
+{
+  "name": "Pokédex Next.js",
+  "short_name": "Pokédex",
+  "description": "Uma Pokédex moderna e interativa construída com Next.js",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ef5350",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["games", "entertainment", "education"],
+  "lang": "pt-BR"
+}
