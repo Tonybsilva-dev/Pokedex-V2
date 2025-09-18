@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { WebVitals } from '@/components/custom/web-vitals';
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -49,6 +50,7 @@ export default function RootLayout({
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50" role="application" aria-label="Pokédex Application">
           {children}
         </div>
+        <SpeedInsights />
         <Analytics />
       </body>
     </html>
