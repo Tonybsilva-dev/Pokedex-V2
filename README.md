@@ -1,233 +1,126 @@
-# 🎮 Pokédex Next.js
+<!-- PROJECT SHIELDS -->
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-Uma Pokédex moderna e interativa construída com **Next.js 14**, **TypeScript** e **Tailwind CSS**. Explore todos os Pokémon com uma interface responsiva, animações suaves e funcionalidades avançadas.
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <h3 align="center">Pokédex V2</h3>
 
-![Pokédex Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3-38B2AC?style=for-the-badge&logo=tailwind-css)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-10.16-0055FF?style=for-the-badge&logo=framer)
+  <p align="center">
+    A modern and interactive Pokédex built with Next.js 14 + TypeScript + Tailwind CSS.
+    <br />
+    <a href="https://pokedex-v2-antonio-s.vercel.app/"><strong>Open the app »</strong></a>
+    <br />
+    <br />
+    <a href="https://pokedex-v2-antonio-s.vercel.app/">View Demo</a>
+    ·
+    <a href="https://github.com/Tonybsilva-dev/Pokedex-V2">Repository</a>
+    ·
+    <a href="https://github.com/Tonybsilva-dev/Pokedex-V2/issues">Report Bug / Feature</a>
+  </p>
+</p>
 
-## ✨ Funcionalidades
+## About The Project
 
-### 🔍 Busca e Filtros
-- **Busca em tempo real** por nome do Pokémon
-- **Filtros por tipo** com cores personalizadas
-- **Filtros por geração** (Kanto, Johto, Hoenn, etc.)
-- **Interface de filtros intuitiva** com modal responsivo
+Pokédex-inspired interface focused on performance, accessibility, and UX. It consumes PokeAPI data and offers search by name/ID, pagination, and Pokémon details.
 
-### 🎨 Design Moderno
-- **Interface responsiva** para todos os dispositivos
-- **Animações suaves** com Framer Motion
-- **Cores temáticas** baseadas nos tipos de Pokémon
-- **Gradientes e efeitos visuais** modernos
-- **Dark mode** (em desenvolvimento)
+### Stack
 
-### 📱 PWA Ready
-- **Progressive Web App** configurado
-- **Instalável** em dispositivos móveis
-- **Offline support** (em desenvolvimento)
-- **Manifest** otimizado
+- Next.js 14, TypeScript, Tailwind CSS, Framer Motion
+- Axios, Lucide React
 
-### ⚡ Performance
-- **Server-side rendering** com Next.js
-- **API routes** otimizadas
-- **Cache inteligente** para requisições
-- **Lazy loading** de imagens
-- **Otimização de bundle**
+### Screenshots
 
-### 🎯 Funcionalidades Avançadas
-- **Sistema de favoritos** com localStorage
-- **Paginação infinita** para melhor performance
-- **Estatísticas detalhadas** de cada Pokémon
-- **Informações de altura e peso**
-- **Sprites oficiais** de alta qualidade
+<p align="center">
+  <img src="src/assets/pokedex.png" alt="Pokédex - Desktop" />
+  <br/>
+  <img src="src/assets/pokedex-mobile.png" alt="Pokédex - Mobile" width="45%" />
+  <img src="src/assets/pokedex-mobile-data.png" alt="Pokédex - Mobile (Detalhes)" width="45%" />
+  <br/>
+  <sub>Demo images of the interface (desktop and mobile).</sub>
+</p>
 
-## 🚀 Tecnologias Utilizadas
+## Getting Started
 
-- **Next.js 14** - Framework React com App Router
-- **TypeScript** - Tipagem estática
-- **Tailwind CSS** - Estilização utilitária
-- **Framer Motion** - Animações e transições
-- **Axios** - Cliente HTTP
-- **Lucide React** - Ícones modernos
-- **PokeAPI** - API oficial dos Pokémon
+To run locally:
 
-## 📦 Instalação
+### Prerequisites
 
-1. **Clone o repositório**
+- Node.js 18+
+- npm (or pnpm/yarn)
+
+### Installation
+
+1. Clone the repository
+
    ```bash
-   git clone https://github.com/seu-usuario/pokedex-nextjs.git
-   cd pokedex-nextjs
+   git clone https://github.com/Tonybsilva-dev/Pokedex-V2.git
+   cd Pokedex-V2
    ```
 
-2. **Instale as dependências**
+2. Install dependencies
+
    ```bash
    npm install
-   # ou
-   yarn install
-   # ou
-   pnpm install
    ```
 
-3. **Execute o projeto**
+3. Run the project
+
    ```bash
    npm run dev
-   # ou
-   yarn dev
-   # ou
-   pnpm dev
    ```
 
-4. **Acesse no navegador**
+4. Open in the browser
+
    ```
    http://localhost:3000
    ```
 
-## 🛠️ Scripts Disponíveis
+## Usage
 
-```bash
-# Desenvolvimento
-npm run dev
+- Access the hosted demo: `https://pokedex-v2-antonio-s.vercel.app/`
+- Search by name or ID (e.g., "025" for Pikachu)
 
-# Build para produção
-npm run build
+## Roadmap
 
-# Iniciar servidor de produção
-npm run start
+See the [open issues](https://github.com/Tonybsilva-dev/Pokedex-V2/issues) for upcoming items and known bugs.
 
-# Linting
-npm run lint
+### Author
 
-# Verificação de tipos
-npm run type-check
-```
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/Tonybsilva-dev"><img src="https://avatars.githubusercontent.com/u/54373473?v=4" width="100px;" alt=""/><br /><sub><b>Antonio Silva</b></sub></a><br /><a href="https://github.com/Tonybsilva-dev/Pokedex-V2/commits?author=Tonybsilva-dev" title="Commits">📦</a> <a href="https://github.com/Tonybsilva-dev/Pokedex-V2/pulls?q=is%3Apr+reviewed-by%3ATonybsilva-dev" title="Reviewed PRs">👀</a></td>
+  </tr>
+</table>
 
-## 📁 Estrutura do Projeto
+### Contributors
 
-```
-src/
-├── app/                    # App Router do Next.js
-│   ├── api/               # API Routes
-│   │   ├── pokemon/       # Endpoints de Pokémon
-│   │   └── types/         # Endpoints de tipos
-│   ├── globals.css        # Estilos globais
-│   ├── layout.tsx         # Layout principal
-│   └── page.tsx           # Página inicial
-├── components/            # Componentes React
-│   ├── FilterModal.tsx    # Modal de filtros
-│   ├── LoadingSpinner.tsx # Spinner de carregamento
-│   ├── Navbar.tsx         # Barra de navegação
-│   ├── PokemonCard.tsx    # Card do Pokémon
-│   ├── PokemonList.tsx    # Lista de Pokémon
-│   └── EmptyState.tsx     # Estado vazio
-├── lib/                   # Utilitários e serviços
-│   ├── pokemon-api.ts     # Cliente da PokeAPI
-│   └── utils.ts           # Funções utilitárias
-├── styles/                # Estilos CSS
-│   └── globals.css        # Estilos globais
-└── types/                 # Definições TypeScript
-    └── pokemon.ts         # Tipos de Pokémon
-```
+<table>
+  <tr>
+    <td>Contributions are welcome via PR.</td>
+  </tr>
+</table>
 
-## 🎨 Personalização
+## License
 
-### Cores dos Tipos
-As cores dos tipos de Pokémon podem ser personalizadas no arquivo `tailwind.config.js`:
-
-```javascript
-theme: {
-  extend: {
-    colors: {
-      type: {
-        fire: '#F08030',
-        water: '#6890F0',
-        // ... outros tipos
-      }
-    }
-  }
-}
-```
-
-### Animações
-As animações podem ser ajustadas nos componentes usando Framer Motion:
-
-```tsx
-<motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.5 }}
->
-  {/* Conteúdo */}
-</motion.div>
-```
-
-## 📱 Responsividade
-
-O projeto é totalmente responsivo com breakpoints otimizados:
-
-- **Mobile**: < 640px
-- **Tablet**: 640px - 1024px
-- **Desktop**: > 1024px
-
-## 🔧 Configuração da API
-
-A aplicação utiliza a [PokeAPI](https://pokeapi.co/) como fonte de dados. As configurações da API estão em `src/lib/pokemon-api.ts`.
-
-### Cache
-O sistema implementa cache em memória para otimizar as requisições:
-
-```typescript
-private cache = new Map<string, any>();
-```
-
-## 🚀 Deploy
-
-### Vercel (Recomendado)
-1. Conecte seu repositório ao Vercel
-2. Configure as variáveis de ambiente
-3. Deploy automático
-
-### Netlify
-1. Build: `npm run build`
-2. Publish directory: `.next`
-3. Deploy
-
-### Docker
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "start"]
-```
-
-## 🤝 Contribuição
-
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## 🙏 Agradecimentos
-
-- [PokeAPI](https://pokeapi.co/) - API oficial dos Pokémon
-- [Next.js](https://nextjs.org/) - Framework React
-- [Tailwind CSS](https://tailwindcss.com/) - Framework CSS
-- [Framer Motion](https://www.framer.com/motion/) - Biblioteca de animações
-- [Lucide](https://lucide.dev/) - Ícones
-
-## 📞 Contato
-
-**Antonio Silva** - [@tonybsilva-dev](https://github.com/tonybsilva-dev)
+Distributed under the MIT license. See `LICENSE` for more information.
 
 ---
 
-⭐ **Se este projeto te ajudou, considere dar uma estrela!** ⭐
+⭐ If this project helped you, please consider giving it a star!
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[contributors-shield]: https://img.shields.io/github/contributors/Tonybsilva-dev/Pokedex-V2.svg?style=for-the-badge
+[contributors-url]: https://github.com/Tonybsilva-dev/Pokedex-V2/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Tonybsilva-dev/Pokedex-V2.svg?style=for-the-badge
+[forks-url]: https://github.com/Tonybsilva-dev/Pokedex-V2/network/members
+[stars-shield]: https://img.shields.io/github/stars/Tonybsilva-dev/Pokedex-V2.svg?style=for-the-badge
+[stars-url]: https://github.com/Tonybsilva-dev/Pokedex-V2/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Tonybsilva-dev/Pokedex-V2.svg?style=for-the-badge
+[issues-url]: https://github.com/Tonybsilva-dev/Pokedex-V2/issues
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/tony-silva/
