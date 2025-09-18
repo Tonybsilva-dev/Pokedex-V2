@@ -26,6 +26,7 @@
 
     --pokedex-red-gradient: linear-gradient(145deg, hsl(0 84% 48%), hsl(0 84% 38%));
     --pokedex-blue-gradient: linear-gradient(145deg, hsl(195 100% 50%), hsl(195 100% 40%));
+    --pokedex-blue: 195 100% 50%;
     --pokedex-screen-gradient: linear-gradient(145deg, hsl(120 20% 92%), hsl(120 20% 88%));
     --pokedex-shadow: 0 8px 32px hsl(0 0% 0% / 0.3);
     --pokedex-inset: inset 0 2px 4px hsl(0 0% 0% / 0.2);
