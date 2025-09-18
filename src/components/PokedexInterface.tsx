@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Search } from "lucide-react";
 import { Pokemon, getTypeColor } from "@/types/pokemon";
 import { pokemonService } from "@/lib/pokemon-service";
@@ -9,7 +9,6 @@ import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { AudioController } from "./AudioController";
-import Image from "next/image";
 import { PokedexControls } from "./PokedexControls";
 import { PokedexScreen } from "./PokedexScreen";
 
@@ -91,13 +90,6 @@ const PokedexInterface = () => {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "hsl(var(--background))" }}>
         <div className="text-center">
-          <Image
-            width={32}
-            height={32}
-            src="/loading.gif"
-            alt="Loading"
-            className="mx-auto mb-4"
-          />
           <div className="text-green-400 font-mono text-lg mb-2">CARREGANDO POKÉDEX...</div>
           <div className="w-64 bg-gray-700 rounded-full h-2">
             <div

@@ -120,10 +120,7 @@ export const AudioController = ({ isLoaded }: AudioControllerProps) => {
             step="0.1"
             value={volume}
             onChange={handleVolumeChange}
-            className="w-16 h-1 bg-gray-800 rounded-lg appearance-none cursor-pointer"
-            style={{
-              background: `linear-gradient(to right, hsl(var(--pokedex-green)) 0%, hsl(var(--pokedex-green)) ${volume * 100}%, hsl(var(--pokedex-dark)) ${volume * 100}%, hsl(var(--pokedex-dark)) 100%)`
-            }}
+            className="w-16 h-1 bg-gray-800 rounded-lg appearance-none cursor-pointer bg-black"
             aria-label={`Volume control: ${Math.round(volume * 100)}%`}
             title={`Volume: ${Math.round(volume * 100)}%`}
           />
