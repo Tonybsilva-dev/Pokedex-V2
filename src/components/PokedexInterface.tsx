@@ -33,6 +33,8 @@ const PokedexInterface = () => {
 
         setLoadingProgress(80);
         console.log('Pokémon carregados:', pokemon.length);
+        console.log('Primeiros 10 Pokémon:', pokemon.slice(0, 10).map(p => `${p.id} - ${p.name}`));
+        console.log('Pikachu encontrado:', pokemon.find(p => p.name.toLowerCase() === 'pikachu'));
         setPokemonList(pokemon);
 
         setLoadingProgress(100);
@@ -52,15 +54,27 @@ const PokedexInterface = () => {
   const filteredPokemon = useMemo(() => {
     if (!searchTerm) return pokemonList;
     const searchLower = searchTerm.toLowerCase().trim();
-    const filtered = pokemonList.filter(pokemon =>
-      pokemon.name.toLowerCase().includes(searchLower) ||
-      pokemon.id.toString().includes(searchLower) ||
-      pokemon.types.some(type => type.type.name.toLowerCase().includes(searchLower))
-    );
+
+    const filtered = pokemonList.filter(pokemon => {
+      const nameMatch = pokemon.name.toLowerCase().includes(searchLower);
+
+      // Busca exata por ID (remove zeros à esquerda)
+      const searchId = parseInt(searchLower.replace(/^0+/, '')) || 0;
+      const idExactMatch = pokemon.id === searchId;
+      const idPartialMatch = pokemon.id.toString().includes(searchLower);
+
+      const typeMatch = pokemon.types.some(type => type.type.name.toLowerCase().includes(searchLower));
+
+      return nameMatch || idExactMatch || idPartialMatch || typeMatch;
+    });
+
     console.log(`Buscando por "${searchTerm}": ${filtered.length} resultados encontrados`);
-    if (searchLower === 'rayquaza') {
-      console.log('Pokémon com "rayquaza" no nome:', pokemonList.filter(p => p.name.toLowerCase().includes('rayquaza')));
+    console.log('Pokémon encontrados:', filtered.map(p => `${p.id} - ${p.name}`));
+
+    if (searchLower === 'pikachu' || searchLower === '025' || searchLower === '25') {
+      console.log('Pikachu encontrado:', pokemonList.find(p => p.id === 25));
     }
+
     return filtered;
   }, [pokemonList, searchTerm]);
 

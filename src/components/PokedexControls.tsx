@@ -32,7 +32,7 @@ export const PokedexControls = ({
         <Button
           variant="ghost"
           size="sm"
-          className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-8 p-0 bg-blue-400 hover:bg-blue-500 border border-gray-600"
+          className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-8 p-0 bg-zinc-600 hover:bg-zinc-600 border border-gray-600"
           onClick={onUp}
         >
           <ChevronUp className="w-4 h-4 text-white" />
@@ -42,7 +42,7 @@ export const PokedexControls = ({
         <Button
           variant="ghost"
           size="sm"
-          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-8 p-0 bg-blue-400 hover:bg-blue-500 border border-gray-600"
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-8 p-0 bg-zinc-600 hover:bg-zinc-600 border border-gray-600"
           onClick={onDown}
         >
           <ChevronDown className="w-4 h-4 text-white" />
@@ -52,7 +52,7 @@ export const PokedexControls = ({
         <Button
           variant="ghost"
           size="sm"
-          className="absolute top-1/2 left-0 transform -translate-y-1/2 w-8 h-8 p-0 bg-blue-400 hover:bg-blue-500 border border-gray-600"
+          className="absolute top-1/2 left-0 transform -translate-y-1/2 w-8 h-8 p-0 bg-zinc-600 hover:bg-zinc-600 border border-gray-600"
           onClick={onLeft}
         >
           <ChevronLeft className="w-4 h-4 text-white" />
@@ -62,7 +62,7 @@ export const PokedexControls = ({
         <Button
           variant="ghost"
           size="sm"
-          className="absolute top-1/2 right-0 transform -translate-y-1/2 w-8 h-8 p-0 bg-blue-400 hover:bg-blue-500 border border-gray-600"
+          className="absolute top-1/2 right-0 transform -translate-y-1/2 w-8 h-8 p-0 bg-zinc-600 hover:bg-zinc-600 border border-gray-600"
           onClick={onRight}
         >
           <ChevronRight className="w-4 h-4 text-white" />
@@ -75,12 +75,10 @@ export const PokedexControls = ({
 
       <div className="flex justify-center gap-2">
         <div
-          className="w-6 h-6 rounded-full border-2 border-gray-600"
-          style={{ backgroundColor: "hsl(var(--pokedex-green))" }}
+          className="w-6 h-6 rounded-full border-2 border-gray-600 bg-green-500"
         ></div>
         <div
-          className="w-6 h-6 rounded-full border-2 border-gray-600"
-          style={{ backgroundColor: "hsl(var(--pokedex-yellow))" }}
+          className="w-6 h-6 rounded-full border-2 border-gray-600 bg-yellow-500"
         ></div>
       </div>
 

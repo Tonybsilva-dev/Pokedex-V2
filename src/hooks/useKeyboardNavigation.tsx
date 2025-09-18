@@ -12,9 +12,20 @@ export const useKeyboardNavigation = ({ pokemonList, onPokemonChange }: UseKeybo
 
   useEffect(() => {
     if (pokemonList.length > 0) {
+      // Reset index if current index is out of bounds
+      if (currentIndex >= pokemonList.length) {
+        setCurrentIndex(0);
+      }
       onPokemonChange(pokemonList[currentIndex]);
     }
   }, [currentIndex, pokemonList, onPokemonChange]);
+
+  // Reset index when pokemonList changes (e.g., when filtering)
+  useEffect(() => {
+    if (pokemonList.length > 0) {
+      setCurrentIndex(0);
+    }
+  }, [pokemonList]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
