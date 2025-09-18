@@ -48,7 +48,7 @@ export const AudioController = ({ isLoaded }: AudioControllerProps) => {
   };
 
   return (
-    <aside className="absolute top-4 right-4 z-30" aria-label="Audio Controls">
+    <aside className="w-full max-w-6xl mx-auto mb-4 px-4 flex justify-end" aria-label="Audio Controls">
       <div
         className="rounded-lg p-3 border-2 border-gray-600 flex items-center gap-3"
         style={{
@@ -120,7 +120,7 @@ export const AudioController = ({ isLoaded }: AudioControllerProps) => {
             step="0.1"
             value={volume}
             onChange={handleVolumeChange}
-            className="w-16 h-1 bg-gray-800 rounded-lg appearance-none cursor-pointer bg-black"
+            className="w-16 h-1 bg-gray-800 rounded-lg appearance-none cursor-pointer"
             aria-label={`Volume control: ${Math.round(volume * 100)}%`}
             title={`Volume: ${Math.round(volume * 100)}%`}
           />

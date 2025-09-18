@@ -20,6 +20,7 @@ const PokedexInterface = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
+  const [isMobileDataView, setIsMobileDataView] = useState(false);
 
   useEffect(() => {
     const loadPokemon = async () => {
@@ -129,10 +130,10 @@ const PokedexInterface = () => {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: "hsl(var(--background))" }}>
+    <main className="min-h-screen flex flex-col items-center justify-center p-4" style={{ backgroundColor: "hsl(var(--background))" }}>
       <AudioController isLoaded={isLoaded} />
       <section
-        className="w-full max-w-6xl h-[600px] rounded-3xl relative overflow-hidden"
+        className="w-full max-w-6xl h-auto md:h-[600px] rounded-3xl relative overflow-hidden"
         style={{
           background: "var(--pokedex-red-gradient)",
           boxShadow: "var(--pokedex-shadow)"
@@ -140,9 +141,9 @@ const PokedexInterface = () => {
         aria-label="Pokédex Interface"
       >
 
-        <div className="absolute left-1/2 top-0 w-8 h-full bg-red-800 transform -translate-x-1/2 z-10" aria-hidden="true"></div>
+        <div className="hidden md:block absolute left-1/2 top-0 w-8 h-full bg-red-800 transform -translate-x-1/2 z-10" aria-hidden="true"></div>
 
-        <aside className="absolute left-0 top-0 w-1/2 h-full p-6 pr-10" aria-label="Pokémon Display and Controls">
+        <aside className="p-6 md:pr-10 md:absolute md:left-0 md:top-0 md:w-1/2 md:h-full" aria-label="Pokémon Display and Controls">
 
           <header className="flex items-center justify-between mb-4">
             <div
@@ -161,8 +162,105 @@ const PokedexInterface = () => {
           </header>
 
 
-          <section className="mb-6" aria-label="Pokémon Display">
-            <PokedexScreen pokemon={currentPokemon} isNavigating={isNavigating} />
+          <section className="mb-6 relative" aria-label="Pokémon Display">
+            <button
+              type="button"
+              onClick={() => setIsMobileDataView((v) => !v)}
+              className="md:hidden absolute top-2 right-2 z-20 h-8 px-3 rounded border-2 border-gray-600 bg-gray-900 text-green-400 font-mono text-xs"
+              aria-label={isMobileDataView ? 'Mostrar imagem do Pokémon' : 'Mostrar dados do Pokémon'}
+              title={isMobileDataView ? 'Mostrar imagem do Pokémon' : 'Mostrar dados do Pokémon'}
+            >
+              {isMobileDataView ? 'IMG' : 'DATA'}
+            </button>
+
+            <div className={isMobileDataView ? 'hidden md:block' : 'block'}>
+              <PokedexScreen pokemon={currentPokemon} isNavigating={isNavigating} />
+            </div>
+
+            <div className={isMobileDataView ? 'block md:hidden' : 'hidden'}>
+              <header className="h-12 bg-gray-900 rounded-t-lg border-4 border-gray-600 mb-0 flex items-center justify-center">
+                <h2 className="text-green-400 font-mono text-sm font-bold">POKÉMON DATA</h2>
+              </header>
+              <main
+                className="h-80 bg-gray-900 rounded-b-lg border-4 border-gray-600 border-t-0 p-4 overflow-y-auto"
+                role="region"
+                aria-label="Pokémon Details"
+              >
+                {currentPokemon ? (
+                  <article className="text-green-400 font-mono text-sm space-y-4">
+                    <header className="border-b border-green-400/30 pb-2">
+                      <h3 className="text-lg font-bold text-white">
+                        {currentPokemon.name.toUpperCase()}
+                      </h3>
+                      <p className="text-xs opacity-70">
+                        NO. {currentPokemon.id.toString().padStart(3, '0')}
+                      </p>
+                    </header>
+                    <section>
+                      <h4 className="text-xs opacity-70 mb-1">TYPE</h4>
+                      <div className="flex gap-1" role="list" aria-label="Pokémon Types">
+                        {currentPokemon.types.map((type) => (
+                          <Badge
+                            key={type?.type?.name || 'unknown'}
+                            className="text-xs"
+                            style={{
+                              backgroundColor: `hsl(var(--${getTypeColor(type?.type?.name || 'normal')}))`,
+                              color: 'white'
+                            }}
+                            role="listitem"
+                          >
+                            {type?.type?.name?.toUpperCase() || 'UNKNOWN'}
+                          </Badge>
+                        ))}
+                      </div>
+                    </section>
+                    <section className="grid grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="text-xs opacity-70">HEIGHT</h4>
+                        <p>{(currentPokemon.height / 10).toFixed(1)}M</p>
+                      </div>
+                      <div>
+                        <h4 className="text-xs opacity-70">WEIGHT</h4>
+                        <p>{(currentPokemon.weight / 10).toFixed(1)}KG</p>
+                      </div>
+                    </section>
+                    <section>
+                      <h4 className="text-xs opacity-70 mb-2">BASE STATS</h4>
+                      <div className="space-y-2" role="list" aria-label="Pokémon Base Stats">
+                        {currentPokemon.stats.map((stat) => (
+                          <div key={stat.stat.name} role="listitem">
+                            <div className="flex justify-between text-xs mb-1">
+                              <span>{stat.stat.name.toUpperCase()}</span>
+                              <span>{stat.base_stat}</span>
+                            </div>
+                            <div className="w-full bg-gray-700 rounded-full h-1" role="progressbar" aria-valuenow={stat.base_stat} aria-valuemin={0} aria-valuemax={150} aria-label={`${stat.stat.name}: ${stat.base_stat}`}>
+                              <div
+                                className="h-1 rounded-full transition-all duration-300 bg-green-500"
+                                style={{
+                                  width: `${(stat.base_stat / 150) * 100}%`
+                                }}
+                              ></div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+                    <section>
+                      <h4 className="text-xs opacity-70 mb-1">DESCRIPTION</h4>
+                      <p className="text-xs leading-relaxed text-gray-300">
+                        {currentPokemon.description}
+                      </p>
+                    </section>
+                  </article>
+                ) : (
+                  <div className="flex items-center justify-center h-full">
+                    <p className="text-green-400 font-mono text-sm">
+                      NO DATA AVAILABLE
+                    </p>
+                  </div>
+                )}
+              </main>
+            </div>
           </section>
 
 
@@ -191,7 +289,7 @@ const PokedexInterface = () => {
           </nav>
         </aside>
 
-        <aside className="absolute right-0 top-0 w-1/2 h-full p-6 pl-10" aria-label="Pokémon Information Panel">
+        <aside className="hidden md:block p-6 md:pl-10 md:absolute md:right-0 md:top-0 md:w-1/2 md:h-full mt-6 md:mt-0" aria-label="Pokémon Information Panel">
           <header className="h-12 bg-gray-900 rounded-t-lg border-4 border-gray-600 mb-0 flex items-center justify-center">
             <h2 className="text-green-400 font-mono text-sm font-bold">POKÉMON DATA</h2>
           </header>
@@ -315,7 +413,7 @@ const PokedexInterface = () => {
           </div>
         </aside>
 
-        <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-12 bg-red-900 rounded-lg z-20" aria-hidden="true"></div>
+        <div className="hidden md:block absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-12 bg-red-900 rounded-lg z-20" aria-hidden="true"></div>
       </section>
     </main>
   );
