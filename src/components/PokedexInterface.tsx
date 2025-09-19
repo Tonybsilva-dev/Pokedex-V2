@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 import { Pokemon, getTypeColor } from "@/types/pokemon";
 import { pokemonService } from "@/lib/pokemon-service";
 import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation";
+import { useTextToSpeech } from "@/hooks/useTextToSpeech";
 
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +23,27 @@ const PokedexInterface = () => {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [isMobileDataView, setIsMobileDataView] = useState(false);
 
+  const { speak, stop, isSupported } = useTextToSpeech({
+    enabled: true,
+    rate: 1.0,
+    pitch: 1.0,
+    volume: 1.0,
+    autoDetectLocale: true
+  });
+
+  useEffect(() => {
+    if (currentPokemon && isSupported) {
+      stop();
+
+      const timer = setTimeout(() => {
+        speak(currentPokemon.name);
+        speak(currentPokemon.description);
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+  }, [currentPokemon, speak, stop, isSupported]);
+
   useEffect(() => {
     const loadPokemon = async () => {
       try {
@@ -33,9 +55,6 @@ const PokedexInterface = () => {
         const pokemon = await pokemonService.getAllPokemon();
 
         setLoadingProgress(80);
-        console.log('Pokémon carregados:', pokemon.length);
-        console.log('Primeiros 10 Pokémon:', pokemon.slice(0, 10).map(p => `${p.id} - ${p.name}`));
-        console.log('Pikachu encontrado:', pokemon.find(p => p.name.toLowerCase() === 'pikachu'));
         setPokemonList(pokemon);
 
         setLoadingProgress(100);
@@ -287,6 +306,26 @@ const PokedexInterface = () => {
               totalPokemon={totalPokemon}
             />
           </nav>
+
+          {/* Text-to-Speech Controls */}
+          {isSupported && (
+            <div className="mt-4 flex items-center justify-center gap-2">
+              <button
+                onClick={() => currentPokemon && speak(currentPokemon.name)}
+                className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs font-mono rounded transition-colors"
+                aria-label="Speak current Pokémon name"
+              >
+                🔊 SPEAK
+              </button>
+              <button
+                onClick={stop}
+                className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs font-mono rounded transition-colors"
+                aria-label="Stop speech"
+              >
+                ⏹️ STOP
+              </button>
+            </div>
+          )}
         </aside>
 
         <aside className="hidden md:block p-6 md:pl-10 md:absolute md:right-0 md:top-0 md:w-1/2 md:h-full mt-6 md:mt-0" aria-label="Pokémon Information Panel">
