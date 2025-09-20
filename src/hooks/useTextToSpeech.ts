@@ -1,4 +1,5 @@
 import { useCallback, useRef } from 'react';
+import { detectBrowserLanguage } from '@/lib/utils';
 
 interface UseTextToSpeechOptions {
   enabled?: boolean;
@@ -19,48 +20,27 @@ export const useTextToSpeech = (options: UseTextToSpeechOptions = {}) => {
     autoDetectLocale = true
   } = options;
 
-  // Auto-detect user locale
   const getDetectedLocale = useCallback(() => {
     if (!autoDetectLocale && lang) return lang;
 
     if (typeof window !== 'undefined') {
-      // Get browser language
-      const browserLang = navigator.language || navigator.languages?.[0] || 'en-US';
+      const detectedLanguage = detectBrowserLanguage();
 
       const localeMap: Record<string, string> = {
-        'pt-BR': 'pt-BR',
-        'pt': 'pt-BR',
-        'en-US': 'en-US',
+        'pt-BR': 'en-US',
         'en': 'en-US',
-        'en-GB': 'en-GB',
-        'es-ES': 'es-ES',
         'es': 'es-ES',
-        'es-MX': 'es-MX',
-        'fr-FR': 'fr-FR',
         'fr': 'fr-FR',
-        'de-DE': 'de-DE',
         'de': 'de-DE',
-        'it-IT': 'it-IT',
         'it': 'it-IT',
-        'ja-JP': 'ja-JP',
         'ja': 'ja-JP',
-        'ko-KR': 'ko-KR',
         'ko': 'ko-KR',
-        'zh-CN': 'zh-CN',
-        'zh': 'zh-CN',
-        'zh-TW': 'zh-TW',
-        'ru-RU': 'ru-RU',
-        'ru': 'ru-RU'
+        'zh-Hans': 'zh-CN',
+        'zh-Hant': 'zh-TW',
+        'ru': 'en-US'
       };
 
-      if (localeMap[browserLang]) {
-        return localeMap[browserLang];
-      }
-
-      const langCode = browserLang.split('-')[0];
-      if (localeMap[langCode]) {
-        return localeMap[langCode];
-      }
+      return localeMap[detectedLanguage] || 'en-US';
     }
 
     return lang || 'en-US';
@@ -79,8 +59,13 @@ export const useTextToSpeech = (options: UseTextToSpeechOptions = {}) => {
     speechSynthesis.current = window.speechSynthesis;
   }
 
-  const speak = useCallback((text: string) => {
-    if (!enabled || !speechSynthesis.current || !text.trim()) {
+  const speak = useCallback((text: string | string[]) => {
+    if (!enabled || !speechSynthesis.current) {
+      return;
+    }
+
+    const texts = Array.isArray(text) ? text.filter(t => t && t.trim()) : [text];
+    if (texts.length === 0) {
       return;
     }
 
@@ -230,29 +215,41 @@ export const useTextToSpeech = (options: UseTextToSpeechOptions = {}) => {
       const preferences = getVoicePreferences(detectedLang);
       const selectedVoice = preferences.primary || preferences.secondary || preferences.fallback;
 
-      const pokemonText = processPokemonText(text);
+      let currentIndex = 0;
 
-      const utterance = new SpeechSynthesisUtterance(pokemonText);
-      utterance.rate = rate;
-      utterance.pitch = pitch;
-      utterance.volume = volume;
-      utterance.lang = detectedLang;
+      const speakNext = () => {
+        if (currentIndex >= texts.length) {
+          currentUtterance.current = null;
+          return;
+        }
 
-      if (selectedVoice) {
-        utterance.voice = selectedVoice;
-      }
+        const pokemonText = processPokemonText(texts[currentIndex]);
+        const utterance = new SpeechSynthesisUtterance(pokemonText);
+        utterance.rate = rate;
+        utterance.pitch = pitch;
+        utterance.volume = volume;
+        utterance.lang = detectedLang;
 
-      currentUtterance.current = utterance;
+        if (selectedVoice) {
+          utterance.voice = selectedVoice;
+        }
 
-      speechSynthesis.current?.speak(utterance);
+        currentUtterance.current = utterance;
 
-      utterance.onend = () => {
-        currentUtterance.current = null;
+        utterance.onend = () => {
+          currentIndex++;
+          speakNext();
+        };
+
+        utterance.onerror = () => {
+          currentIndex++;
+          speakNext();
+        };
+
+        speechSynthesis.current?.speak(utterance);
       };
 
-      utterance.onerror = () => {
-        currentUtterance.current = null;
-      };
+      speakNext();
     };
 
     if (speechSynthesis.current?.getVoices().length === 0) {

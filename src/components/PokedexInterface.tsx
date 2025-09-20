@@ -22,9 +22,10 @@ const PokedexInterface = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [isMobileDataView, setIsMobileDataView] = useState(false);
+  const [isNarrationEnabled, setIsNarrationEnabled] = useState(true);
 
   const { speak, stop, isSupported } = useTextToSpeech({
-    enabled: true,
+    enabled: isNarrationEnabled,
     rate: 1.0,
     pitch: 1.0,
     volume: 1.0,
@@ -32,17 +33,16 @@ const PokedexInterface = () => {
   });
 
   useEffect(() => {
-    if (currentPokemon && isSupported) {
+    if (currentPokemon && isSupported && isNarrationEnabled) {
       stop();
 
       const timer = setTimeout(() => {
-        speak(currentPokemon.name);
-        speak(currentPokemon.description);
+        speak([currentPokemon.name, currentPokemon.description]);
       }, 300);
 
       return () => clearTimeout(timer);
     }
-  }, [currentPokemon, speak, stop, isSupported]);
+  }, [currentPokemon, speak, stop, isSupported, isNarrationEnabled]);
 
   useEffect(() => {
     const loadPokemon = async () => {
@@ -150,7 +150,11 @@ const PokedexInterface = () => {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-4" style={{ backgroundColor: "hsl(var(--background))" }}>
-      <AudioController isLoaded={isLoaded} />
+      <AudioController
+        isLoaded={isLoaded}
+        isNarrationEnabled={isNarrationEnabled}
+        onNarrationToggle={setIsNarrationEnabled}
+      />
       <section
         className="w-full max-w-6xl h-auto md:h-[600px] rounded-3xl relative overflow-hidden"
         style={{
@@ -307,25 +311,6 @@ const PokedexInterface = () => {
             />
           </nav>
 
-          {/* Text-to-Speech Controls */}
-          {isSupported && (
-            <div className="mt-4 flex items-center justify-center gap-2">
-              <button
-                onClick={() => currentPokemon && speak(currentPokemon.name)}
-                className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs font-mono rounded transition-colors"
-                aria-label="Speak current Pokémon name"
-              >
-                🔊 SPEAK
-              </button>
-              <button
-                onClick={stop}
-                className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs font-mono rounded transition-colors"
-                aria-label="Stop speech"
-              >
-                ⏹️ STOP
-              </button>
-            </div>
-          )}
         </aside>
 
         <aside className="hidden md:block p-6 md:pl-10 md:absolute md:right-0 md:top-0 md:w-1/2 md:h-full mt-6 md:mt-0" aria-label="Pokémon Information Panel">

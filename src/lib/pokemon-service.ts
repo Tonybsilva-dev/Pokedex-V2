@@ -1,5 +1,6 @@
 import { Pokemon } from '@/types/pokemon';
 import { pokemonAPI } from './pokemon-api';
+import { detectBrowserLanguage } from './utils';
 
 export class PokemonService {
   private static instance: PokemonService;
@@ -83,18 +84,60 @@ export class PokemonService {
       const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
       const speciesData = await response.json();
 
-      const englishDescription = speciesData.flavor_text_entries?.find(
-        (entry: any) => entry.language.name === 'en'
+      const detectedLanguage = detectBrowserLanguage();
+      const availableLanguages = speciesData.flavor_text_entries?.map((entry: any) => entry.language.name) || [];
+
+      let description = speciesData.flavor_text_entries?.find(
+        (entry: any) => entry.language.name === detectedLanguage
       );
 
-      if (englishDescription) {
-        return englishDescription.flavor_text.replace(/\f/g, ' ').replace(/\n/g, ' ');
+      if (!description) {
+        const fallbackLanguages = ['en', 'es', 'fr', 'de', 'it', 'ja', 'ko', 'zh-Hans', 'zh-Hant'];
+
+        for (const fallbackLang of fallbackLanguages) {
+          if (availableLanguages.includes(fallbackLang)) {
+            description = speciesData.flavor_text_entries?.find(
+              (entry: any) => entry.language.name === fallbackLang
+            );
+            break;
+          }
+        }
       }
 
-      return "A mysterious Pokémon with unique characteristics and abilities.";
+      if (description) {
+        return description.flavor_text.replace(/\f/g, ' ').replace(/\n/g, ' ');
+      }
+
+      const fallbackMessages: Record<string, string> = {
+        'pt-BR': "Um Pokémon misterioso com características e habilidades únicas.",
+        'es': "Un Pokémon misterioso con características y habilidades únicas.",
+        'fr': "Un Pokémon mystérieux aux caractéristiques et capacités uniques.",
+        'de': "Ein mysteriöses Pokémon mit einzigartigen Eigenschaften und Fähigkeiten.",
+        'it': "Un Pokémon misterioso con caratteristiche e abilità uniche.",
+        'ja': "独特な特徴と能力を持つ神秘的なポケモン。",
+        'ko': "독특한 특성과 능력을 가진 신비로운 포켓몬입니다.",
+        'zh-Hans': "一个具有独特特征和能力的神秘宝可梦。",
+        'zh-Hant': "一個具有獨特特徵和能力的神秘寶可夢。",
+        'ru': "Загадочный покемон с уникальными характеристиками и способностями."
+      };
+
+      return fallbackMessages[detectedLanguage] || "A mysterious Pokémon with unique characteristics and abilities.";
     } catch (error) {
       console.error(`Error fetching description for Pokémon ${id}:`, error);
-      return "A mysterious Pokémon with unique characteristics and abilities.";
+      const detectedLanguage = detectBrowserLanguage();
+      const fallbackMessages: Record<string, string> = {
+        'pt-BR': "Um Pokémon misterioso com características e habilidades únicas.",
+        'es': "Un Pokémon misterioso con características y habilidades únicas.",
+        'fr': "Un Pokémon mystérieux aux caractéristiques et capacités uniques.",
+        'de': "Ein mysteriöses Pokémon mit einzigartigen Eigenschaften und Fähigkeiten.",
+        'it': "Un Pokémon misterioso con caratteristiche e abilità uniche.",
+        'ja': "独特な特徴と能力を持つ神秘的なポケモン。",
+        'ko': "독특한 특성과 능력을 가진 신비로운 포켓몬입니다.",
+        'zh-Hans': "一个具有独特特征和能力的神秘宝可梦。",
+        'zh-Hant': "一個具有獨特特徵和能力的神秘寶可夢。",
+        'ru': "Загадочный покемон с уникальными характеристиками и способностями."
+      };
+      return fallbackMessages[detectedLanguage] || "A mysterious Pokémon with unique characteristics and abilities.";
     }
   }
 }

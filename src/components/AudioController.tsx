@@ -1,18 +1,27 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Mic, MicOff, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { detectBrowserLanguage, getLanguageDisplayName } from '@/lib/utils';
 
 interface AudioControllerProps {
   isLoaded: boolean;
+  isNarrationEnabled?: boolean;
+  onNarrationToggle?: (enabled: boolean) => void;
 }
 
-export const AudioController = ({ isLoaded }: AudioControllerProps) => {
+export const AudioController = ({ isLoaded, isNarrationEnabled = true, onNarrationToggle }: AudioControllerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  const detectedLanguage = detectBrowserLanguage();
+  const languageDisplayName = getLanguageDisplayName(detectedLanguage);
+
+  const actualLanguage = detectedLanguage === 'pt-BR' ? 'en' : detectedLanguage;
+  const actualLanguageDisplayName = getLanguageDisplayName(actualLanguage);
 
   useEffect(() => {
     if (isLoaded && audioRef.current) {
@@ -72,6 +81,13 @@ export const AudioController = ({ isLoaded }: AudioControllerProps) => {
           {isPlaying ? 'AUDIO' : 'CLICK TO PLAY'}
         </div>
 
+        <div className="flex items-center gap-1 text-green-400 font-mono text-xs">
+          <Globe className="w-3 h-3" aria-hidden="true" />
+          <span title={`Detected: ${languageDisplayName} | Using: ${actualLanguageDisplayName}`}>
+            {actualLanguage.toUpperCase()}
+          </span>
+        </div>
+
 
         <button
           onClick={togglePlayPause}
@@ -126,6 +142,29 @@ export const AudioController = ({ isLoaded }: AudioControllerProps) => {
           />
         </div>
 
+
+        {onNarrationToggle && (
+          <button
+            onClick={() => onNarrationToggle(!isNarrationEnabled)}
+            className={`w-6 h-6 p-0 border border-gray-600 rounded flex items-center justify-center transition-all ${isNarrationEnabled
+              ? 'bg-green-600 hover:bg-green-500'
+              : 'bg-gray-800 hover:bg-gray-700'
+              }`}
+            style={{
+              backgroundColor: isNarrationEnabled
+                ? "hsl(var(--pokedex-green))"
+                : "hsl(var(--pokedex-dark))"
+            }}
+            aria-label={isNarrationEnabled ? 'Disable narration' : 'Enable narration'}
+            title={isNarrationEnabled ? 'Disable narration' : 'Enable narration'}
+          >
+            {isNarrationEnabled ? (
+              <Mic className="w-3 h-3 text-white" aria-hidden="true" />
+            ) : (
+              <MicOff className="w-3 h-3 text-white" aria-hidden="true" />
+            )}
+          </button>
+        )}
 
         <div
           className="w-2 h-2 rounded-full"
